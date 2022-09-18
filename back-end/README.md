@@ -56,9 +56,9 @@
     Request: {
         "doctor_id": 27,
         "availability": {
-            "monday": "124124abc",
-            "tuesday": "tuesday124",
-            "friday": "asfas"
+            "monday": "1663501568:1663601568",
+            "tuesday": "1663501568:1663601568",
+            "friday": "1663501568:1663601568"
         }
     }
     Response: "Availabilities set"
