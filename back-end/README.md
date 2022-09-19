@@ -31,6 +31,17 @@
     ---
 
     POST /users/logout
+    
+    ---
+
+    POST /users/updatestatus
+
+    Request: {
+        "user_id": 21,
+        "status": "fever"
+    }
+    Response: "Status updated" OR "User Not Found"
+
 
     ---
 
@@ -63,12 +74,5 @@
     }
     Response: "Availabilities set"
 
+    ---
 
-bugs to fix:
-- catch user already exists for registering users
-- fix logout param and response
-
-to do:
-- add tests
-- refactor
-- merge to main
