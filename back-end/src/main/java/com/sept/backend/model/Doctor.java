@@ -1,28 +1,32 @@
 package com.sept.backend.model;
 
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.Date;
 
 @Entity
 @Table(name = "doctor")
-//@PrimaryKeyJoinColumn(name = "id")
+@TypeDefs({
+    @TypeDef(name = "json", typeClass = JsonStringType.class)
+})
 public class Doctor {
     @Id
     private long doctor_id;
-    private ArrayList<Timeslot> availabilities;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private Availability availability;
 
     private String doctorInfo;
 
     public Doctor() {
-
     }
 
     public Doctor(long doctor_id) {
         this.doctor_id = doctor_id;
-        this.availabilities = new ArrayList<Timeslot>();
+        this.availability= null;
         this.doctorInfo = "";
     }
 
@@ -30,14 +34,12 @@ public class Doctor {
         return this.doctor_id;
     }
 
-//    public Doctor(String firstName, String lastName, String email, String password, String role, boolean isAdmin) {
-//        super(firstName, lastName, email, password, role, isAdmin);
-//        this.availabilities = new ArrayList<String>();
-//        this.doctorInfo = "";
-//    }
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
+    }
 
-    public void addAvailabilities(Timeslot timeslot) {
-        availabilities.add(timeslot);
+    public Availability getAvailability() {
+        return this.availability;
     }
 
     public String getDoctorInfo() {
