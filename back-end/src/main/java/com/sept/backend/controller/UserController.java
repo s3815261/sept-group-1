@@ -4,10 +4,12 @@ import com.sept.backend.exception.Status;
 import com.sept.backend.model.AuthRequest;
 import com.sept.backend.model.User;
 import com.sept.backend.model.Users;
+import com.sept.backend.payload.UserUpdateStatusRequest;
 import com.sept.backend.repository.UserRepository;
 import com.sept.backend.service.CustomUserDetailService;
 import com.sept.backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -116,6 +118,21 @@ public class UserController {
     public Status deleteUsers() {
         userRepository.deleteAll();
         return Status.SUCCESS;
+    }
+
+    @PostMapping("/users/updatestatus")
+    public ResponseEntity<String> updateStatus(@RequestBody UserUpdateStatusRequest request) {
+        // Get user from DB
+        User userFromDB = userRepository.findById(request.getUser_id()).orElse(null);
+        // User id does not exist in DB
+        if (userFromDB == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
+        }
+        // User exist
+        userFromDB.setHealthStatus(request.getStatus());
+        // Save status in DB
+        userRepository.save(userFromDB);
+        return ResponseEntity.ok("Status updated");
     }
 
 }
