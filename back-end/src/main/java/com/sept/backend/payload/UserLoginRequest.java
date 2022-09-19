@@ -1,10 +1,10 @@
-package com.sept.backend.model;
+package com.sept.backend.payload;
 
-public class AuthRequest {
+public class UserLoginRequest {
     private String email;
     private String password;
 
-    public AuthRequest(String email, String password) {
+    public UserLoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
