@@ -19,10 +19,10 @@ public class DoctorController {
     DoctorRepository doctorRepository;
 
     @PostMapping("/doctor/register")
-    public String registerDoctor(@RequestParam long id) {
+    public ResponseEntity<String> registerDoctor(@RequestParam long id) {
         Doctor newDoctor = new Doctor(id);
         doctorRepository.save(newDoctor);
-        return "SUCCESS";
+        return ResponseEntity.ok("Doctor registered");
     }
 
     @PostMapping("/doctor/setinfo")
