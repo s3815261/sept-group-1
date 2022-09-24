@@ -8,10 +8,7 @@ import com.sept.backend.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class DoctorController {
@@ -51,5 +48,17 @@ public class DoctorController {
         doctorFromDB.setAvailability(availability);
         doctorRepository.save(doctorFromDB);
         return ResponseEntity.ok("Availabilities set");
+    }
+
+    @GetMapping("/doctor/getavailability")
+    public ResponseEntity<?> getAvailability(@RequestParam long id) {
+        Doctor doctorFromDB = doctorRepository.findById(id).orElse(null);
+        // Doctor id does not exist in DB
+        if (doctorFromDB == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor Not Found");
+        }
+        // Get availability
+        Availability availability = doctorFromDB.getAvailability();
+        return ResponseEntity.ok(availability);
     }
 }

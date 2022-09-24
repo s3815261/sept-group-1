@@ -2,12 +2,14 @@ package com.sept.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sept.backend.controller.DoctorController;
+import com.sept.backend.model.Availability;
 import com.sept.backend.model.Doctor;
 import com.sept.backend.repository.DoctorRepository;
 import com.sept.backend.repository.UserRepository;
 import com.sept.backend.service.CustomUserDetailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,8 +19,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
@@ -38,14 +42,16 @@ public class DoctorControllerTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    static final int mockID = 15;
+    static final long mockID = 45;
     private Doctor doctor;
 
     @BeforeEach
     void setup() {
-        doctor = new Doctor(mockID);
-        doctorRepository.save(doctor);
 
+//        System.out.println("DONE SETING UP");
+//        Doctor doctorFromDB = doctorRepository.findById(mockID).orElse(null);
+//        System.out.println(doctorFromDB.getId());
+//        System.out.println(doctorFromDB.getAvailability());
     }
 
     @Test
@@ -80,5 +86,15 @@ public class DoctorControllerTest {
         mockMvc.perform(post("/doctor/setavailability").contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetDoctorAvailability() throws Exception {
+        Availability availability = new Availability("1663501568:1663601568", null, null, null, null);
+        doctor = new Doctor(mockID);
+        doctor.setAvailability(availability);
+        Mockito.when(doctorRepository.findById(mockID)).thenReturn(Optional.ofNullable(doctor));
+        String id = String.valueOf(mockID);
+        mockMvc.perform(get("/doctor/getavailability").param("id", id)).andExpect(status().isOk());
     }
 }
