@@ -6,6 +6,7 @@ import com.sept.backend.controller.DoctorController;
 import com.sept.backend.model.Availability;
 import com.sept.backend.model.Doctor;
 import com.sept.backend.payload.DoctorAddInfoRequest;
+import com.sept.backend.payload.DoctorSetAvailabilityRequest;
 import com.sept.backend.repository.DoctorRepository;
 import com.sept.backend.repository.UserRepository;
 import com.sept.backend.service.CustomUserDetailService;
@@ -19,8 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,12 +52,12 @@ public class DoctorControllerTest {
 
     @Test
     public void testRegisterDoctor() throws Exception {
-        mockMvc.perform(post("/doctor/register").param("id", String.valueOf(20))).andExpect(status().isOk());
+        mockMvc.perform(post("/doctor/register").param("id", String.valueOf(mockID))).andExpect(status().isOk());
     }
 
     @Test
     public void testRegisterDoctorError() throws Exception {
-        mockMvc.perform(post("/doctor/register").param("idea", String.valueOf(20))).andExpect(status().isBadRequest());
+        mockMvc.perform(post("/doctor/register").param("idea", String.valueOf(mockID))).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -76,15 +75,15 @@ public class DoctorControllerTest {
 
     @Test
     public void testSetDoctorAvailability() throws Exception {
-        Map<String, Object> availabilities = new HashMap<>();
-        availabilities.put("monday", "1663501568:1663601568");
-        availabilities.put("tuesday", "1663501568:1663601568");
-        availabilities.put("wednesday", "1663501568:1663601568");
-        Map<String, Object> body = new HashMap<>();
-        body.put("doctor_id", mockID);
-        body.put("availability", availabilities);
-        mockMvc.perform(post("/doctor/setavailability").contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(body)))
+        Doctor doctor = new Doctor(mockID);
+        Mockito.when(doctorRepository.findById(mockID)).thenReturn(Optional.ofNullable(doctor));
+        Availability availability = new Availability("1663501568:1663601568", null, null, null, null);
+        DoctorSetAvailabilityRequest request = new DoctorSetAvailabilityRequest(mockID, availability);
+        ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
+        String requestJSON = ow.writeValueAsString(request);
+        mockMvc.perform(post("/doctor/setavailability")
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .content(requestJSON))
                 .andExpect(status().isOk());
     }
 
