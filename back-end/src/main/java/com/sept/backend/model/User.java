@@ -30,6 +30,10 @@ public class User implements UserDetails {
 
     }
 
+    public User(long id) {
+        this.id = id;
+    }
+
     public User(@NotBlank String firstName, @NotBlank String lastName, @NotBlank String email, @NotBlank String password, @NotBlank String role, @NotBlank Boolean isAdmin) {
         super();
         this.firstName = firstName;
