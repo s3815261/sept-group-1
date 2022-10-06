@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/screens/add_prescription.dart';
 import 'package:frontend/screens/book_appointment_page.dart';
 import 'package:frontend/screens/login_page.dart';
 import 'package:frontend/screens/splash_screen.dart';
@@ -127,6 +128,13 @@ class _ProfilePageState extends State<ProfilePage>{
                 title: Text('Registration Page',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationPage()),);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.medication, size: _drawerIconSize,color: Theme.of(context).accentColor),
+                title: Text('Add Prescription',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PrescriptionPage()),);
                 },
               ),
               Divider(color: Theme.of(context).primaryColor, height: 1,),
