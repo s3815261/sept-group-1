@@ -131,6 +131,20 @@ class _ProfilePageState extends State<ProfilePage>{
                 },
               ),
               ListTile(
+                leading: Icon(Icons.calendar_view_month_outlined, size: _drawerIconSize,color: Theme.of(context).accentColor),
+                title: Text('View Appointments',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PrescriptionPage()),);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.medical_information, size: _drawerIconSize,color: Theme.of(context).accentColor),
+                title: Text('View Prescriptions',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PrescriptionPage()),);
+                },
+              ),
+              ListTile(
                 leading: Icon(Icons.medication, size: _drawerIconSize,color: Theme.of(context).accentColor),
                 title: Text('Add Prescription',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
                 onTap: () {
