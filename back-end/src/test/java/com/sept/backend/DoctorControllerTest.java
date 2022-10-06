@@ -1,9 +1,11 @@
 package com.sept.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.sept.backend.controller.DoctorController;
 import com.sept.backend.model.Availability;
 import com.sept.backend.model.Doctor;
+import com.sept.backend.payload.DoctorAddInfoRequest;
 import com.sept.backend.repository.DoctorRepository;
 import com.sept.backend.repository.UserRepository;
 import com.sept.backend.service.CustomUserDetailService;
@@ -47,11 +49,6 @@ public class DoctorControllerTest {
 
     @BeforeEach
     void setup() {
-
-//        System.out.println("DONE SETING UP");
-//        Doctor doctorFromDB = doctorRepository.findById(mockID).orElse(null);
-//        System.out.println(doctorFromDB.getId());
-//        System.out.println(doctorFromDB.getAvailability());
     }
 
     @Test
@@ -66,11 +63,14 @@ public class DoctorControllerTest {
 
     @Test
     public void testSetDoctorInfo() throws Exception {
-        Map<String, Object> body = new HashMap<>();
-        body.put("doctor_id", mockID);
-        body.put("doctor_info", "PHD in orthopedic");
-        mockMvc.perform(post("/doctor/setinfo").contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(body)))
+        Doctor doctor = new Doctor(mockID);
+        Mockito.when(doctorRepository.findById(mockID)).thenReturn(Optional.ofNullable(doctor));
+        DoctorAddInfoRequest request = new DoctorAddInfoRequest(mockID, "Phd in Orthopedic");
+        ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
+        String requestJSON = ow.writeValueAsString(request);
+        mockMvc.perform(post("/doctor/setinfo")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJSON))
                 .andExpect(status().isOk());
     }
 
