@@ -24,8 +24,14 @@ public class User implements UserDetails {
     @NotBlank(message = "A role is required") private String role;
     private boolean isAdmin;
 
+    private String healthStatus;
+
     public User(){
 
+    }
+
+    public User(long id) {
+        this.id = id;
     }
 
     public User(@NotBlank String firstName, @NotBlank String lastName, @NotBlank String email, @NotBlank String password, @NotBlank String role, @NotBlank Boolean isAdmin) {
@@ -75,6 +81,10 @@ public class User implements UserDetails {
     public Boolean getIsAdmin() {return isAdmin;}
 
     public void setIsAdmin(Boolean isAdmin) {this.isAdmin = isAdmin;}
+
+    public void setHealthStatus(String healthStatus) {this.healthStatus = healthStatus;}
+
+    public String getHealthStatus() {return this.healthStatus;}
 
     @Override
     public String toString() {

@@ -74,5 +74,3 @@
     }
     Response: "Availabilities set"
 
-    ---
-

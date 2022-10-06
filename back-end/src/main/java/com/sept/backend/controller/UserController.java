@@ -1,13 +1,15 @@
 package com.sept.backend.controller;
 
 import com.sept.backend.exception.Status;
-import com.sept.backend.model.AuthRequest;
+import com.sept.backend.payload.UserLoginRequest;
 import com.sept.backend.model.User;
 import com.sept.backend.model.Users;
+import com.sept.backend.payload.UserUpdateStatusRequest;
 import com.sept.backend.repository.UserRepository;
 import com.sept.backend.service.CustomUserDetailService;
 import com.sept.backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,12 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.print.Doc;
 import javax.validation.Valid;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,12 +58,12 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-    public ResponseEntity<?> loginUserWithJWT(@RequestBody AuthRequest authRequest) throws Exception {
+    public ResponseEntity<?> loginUserWithJWT(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
         // authenticate user
-        authenticate(authRequest.getEmail(), authRequest.getPassword());
-        final UserDetails userDetails = userDetailService.loadUserByUsername(authRequest.getEmail());
+        authenticate(userLoginRequest.getEmail(), userLoginRequest.getPassword());
+        final UserDetails userDetails = userDetailService.loadUserByUsername(userLoginRequest.getEmail());
         // generate token
-        final String token = jwtUtil.generateToken(authRequest.getEmail());
+        final String token = jwtUtil.generateToken(userLoginRequest.getEmail());
         // return jwt token
         Map<String,Object> jwtResponse = new HashMap<>();
         jwtResponse.put("token", token);
@@ -116,6 +114,21 @@ public class UserController {
     public Status deleteUsers() {
         userRepository.deleteAll();
         return Status.SUCCESS;
+    }
+
+    @PostMapping("/users/updatestatus")
+    public ResponseEntity<String> updateStatus(@RequestBody UserUpdateStatusRequest request) {
+        // Get user from DB
+        User userFromDB = userRepository.findById(request.getUser_id()).orElse(null);
+        // User id does not exist in DB
+        if (userFromDB == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
+        }
+        // User exist
+        userFromDB.setHealthStatus(request.getStatus());
+        // Save status in DB
+        userRepository.save(userFromDB);
+        return ResponseEntity.ok("Status updated");
     }
 
 }
