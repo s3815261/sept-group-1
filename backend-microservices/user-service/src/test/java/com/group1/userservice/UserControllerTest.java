@@ -65,15 +65,15 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testLogoutUser() throws Exception {
-        User newUser = new User("sq", "leo", "sqleo@mail.com", "p12345", "patient", false);
-        ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
-        String requestJSON = ow.writeValueAsString(newUser);
-        mockMvc.perform(post("/users/logout").contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJSON))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testLogoutUser() throws Exception {
+//        User newUser = new User("sq", "leo", "sqleo@mail.com", "p12345", "patient", false);
+//        ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
+//        String requestJSON = ow.writeValueAsString(newUser);
+//        mockMvc.perform(post("/users/logout").contentType(MediaType.APPLICATION_JSON)
+//                        .content(requestJSON))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     public void testUpdateStatus() throws Exception {
