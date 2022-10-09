@@ -100,4 +100,27 @@ class UserModel {
     }
   }
 
+  // Will always do it to user id=10
+  // Since we can't navigate the users in the url by id
+  // Will need to be refactored to make a table for symptoms!
+  Future<UserModel> updateHealthStatus(String status) async {
+    final response = await http.post(
+      Uri.parse(ApiConstants.baseUrl + ApiConstants.updateHealthStatusEndpoint),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "user_id": 10,
+        "status": status,
+      }),
+    );
+
+    if(response.statusCode == 201) {
+      return UserModel.fromJson(jsonDecode(response.body));
+
+    }else {
+      throw Exception('Failed to update user health status');
+    }
+  }
+
 }
