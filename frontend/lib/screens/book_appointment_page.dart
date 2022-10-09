@@ -68,10 +68,16 @@ class _BookApointmentPageState extends State<BookingAppointment>{
               },
             ),
             const SizedBox(height: 10),
-            const ElevatedButton(
-              child: Text("Book Appointment"),
-              onPressed: null,
-              ),
+            ElevatedButton(
+              onPressed: () {
+                String bookingTime = dateTime.toString();
+                // Bookings run for an hour
+                DateTime endTime = dateTime.add(const Duration(hours: 1));
+                String endOfAppointment = endTime.toString();
+
+              },
+              child: Text("Book Appointment!"),
+            ),
           ],
         )
       ),
