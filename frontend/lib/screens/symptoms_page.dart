@@ -61,7 +61,7 @@ class _SymptomPageState extends State<SymptomPage> {
                         UserModel user = UserModel(10, 'empty', 'empty', 'empty', true, true, 'empty', "patient");
                         user.updateHealthStatus(_symptomController.text);
                         setState(() {
-                          buttonTitle = "Symptom Added!";
+                          buttonTitle = "Symptom Added!!!!!";
                         });
 
                       },
