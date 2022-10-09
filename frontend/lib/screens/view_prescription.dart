@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/Appointment.dart';
 
-class AppointmentList extends StatefulWidget {
-  const AppointmentList({Key? key}) : super(key: key);
+class PrescriptionList extends StatefulWidget {
+  const PrescriptionList({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ViewApointmentPageState();
+    return _ViewPrescriptionPageState();
   }
 }
 
-class _ViewApointmentPageState extends State<AppointmentList> {
+class _ViewPrescriptionPageState extends State<PrescriptionList> {
   late final List<AppointmentModel> appointments;
 
 
@@ -18,7 +18,7 @@ class _ViewApointmentPageState extends State<AppointmentList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Appointments',
+        title: const Text('Prescriptions',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.purpleAccent,
@@ -29,9 +29,9 @@ class _ViewApointmentPageState extends State<AppointmentList> {
           return ListTile(
             leading: const Icon(Icons.list),
             trailing: const Text(
-              "Appointment",
+              "Prescription",
             ),
-            title: Text("Appointment $i with Doctor Smith 11/11/2022 at 2:00pm"),
+            title: Text("Paracetamol $i prescribed by Doctor Smith 11/11/2022"),
           );
         },
       ),
