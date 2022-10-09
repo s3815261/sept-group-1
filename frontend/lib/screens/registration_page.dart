@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:frontend/screens/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/theme_helper.dart';
@@ -218,7 +219,7 @@ class _RegistrationPageState extends State<RegistrationPage>{
                                 user.createUser(_firstNameController.text, _lastNameController.text, _emailController.text, _passController.text, "patient", true, true);
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) => ProfilePage()
+                                        builder: (context) => LoginPage()
                                     ),
                                         (Route<dynamic> route) => false
                                 );

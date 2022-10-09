@@ -6,6 +6,7 @@ import 'package:frontend/screens/add_prescription.dart';
 import 'package:frontend/screens/book_appointment_page.dart';
 import 'package:frontend/screens/login_page.dart';
 import 'package:frontend/screens/splash_screen.dart';
+import 'package:frontend/screens/view_appointments.dart';
 import 'package:frontend/screens/widgets/header_widget.dart';
 import 'package:frontend/screens/symptoms_page.dart';
 
@@ -134,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 leading: Icon(Icons.calendar_view_month_outlined, size: _drawerIconSize,color: Theme.of(context).accentColor),
                 title: Text('View Appointments',style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).accentColor),),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PrescriptionPage()),);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AppointmentList()),);
                 },
               ),
               ListTile(
@@ -233,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                         ListTile(
                                           leading: Icon(Icons.email),
                                           title: Text("Email"),
-                                          subtitle: Text("user@gmail.com"),
+                                          subtitle: Text(""),
                                         ),
                                         ListTile(
                                           leading: Icon(Icons.phone),
@@ -244,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                           leading: Icon(Icons.person),
                                           title: Text("Symptoms"),
                                           subtitle: Text(
-                                              "This is a about me link and you can know about me in this section."),
+                                              ""),
                                         ),
                                       ],
                                     ),
