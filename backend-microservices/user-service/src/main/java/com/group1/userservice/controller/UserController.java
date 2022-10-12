@@ -8,6 +8,8 @@ import com.group1.userservice.repository.UserRepository;
 import com.group1.userservice.service.CustomUserDetailService;
 import com.group1.userservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.validation.Valid;
 import java.net.URL;
@@ -44,6 +47,12 @@ public class UserController {
     protected RestTemplate restTemplate = new RestTemplate();
 
     private Users users;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+//
+//    @Autowired
+//    private WebClient.Builder webClientBuilder;
 
     // authenticate user
     private void authenticate(String email, String password) throws Exception {
@@ -87,9 +96,13 @@ public class UserController {
         userRepository.save(newUser);
         // make a request to register if user is a doctor
 //        if (newUser.getRole().equals("doctor")) {
-//            String serviceUrl = String.format("http://localhost:8080/doctor/register?id=%d", newUser.getId());
+//            String serviceUrl = String.format("http://doctor-service/doctor/register?id=%d", newUser.getId());
 //            URL url = new URL(serviceUrl);
+
+//            String url = "http://doctor-service/doctor/register?id=" + newUser.getId();
+//            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, null, String.class);
 //            ResponseEntity<String> response = restTemplate.postForEntity(url.toURI(), null, String.class);
+//            restTemplate.postForObject("http://doctor-service/doctor/register?id=" + newUser.getId(), null);
 //        }
         return ResponseEntity.ok("User registered");
     }

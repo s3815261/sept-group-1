@@ -29,6 +29,16 @@
 			<artifactId>jersey-apache-client4</artifactId>
 			<version>1.19.4</version>
 		</dependency>
+		<!--		Reactive web-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
