@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/screens/ChatsWidget.dart';
 import 'package:frontend/screens/add_prescription.dart';
 import 'package:frontend/screens/book_appointment_page.dart';
 import 'package:frontend/screens/login_page.dart';
@@ -91,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 ),
                 child: Container(
                   alignment: Alignment.bottomLeft,
-                  child: Text("ND Telemedicine",
+                  child: const Text("ND Telemedicine",
                     style: TextStyle(fontSize: 25,color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -123,6 +124,14 @@ class _ProfilePageState extends State<ProfilePage>{
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.chat,size: _drawerIconSize,color: Theme.of(context).accentColor),
+                title: Text('Chats', style: TextStyle(fontSize: _drawerFontSize, color: Theme.of(context).accentColor),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChatsWidget()),);
                 },
               ),
               ListTile(

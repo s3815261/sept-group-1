@@ -66,12 +66,12 @@ class _LoginPageState extends State<LoginPage>{
                             ),
                             SizedBox(height: 30.0),
                             Container(
+                              decoration: ThemeHelper().inputBoxDecorationShaddow(),
                               child: TextField(
                                 controller: _passController,
                                 obscureText: true,
                                 decoration: ThemeHelper().textInputDecoration('Password', 'Enter your password'),
                               ),
-                              decoration: ThemeHelper().inputBoxDecorationShaddow(),
                             ),
                             SizedBox(height: 15.0),
                             Container(
@@ -83,8 +83,8 @@ class _LoginPageState extends State<LoginPage>{
                               child: ElevatedButton(
                                 style: ThemeHelper().buttonStyle(),
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                  child: Text('Sign In'.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                  child: Text('Sign In'.toUpperCase(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                                 ),
                                 onPressed: (){
                                   //After successful login we will redirect to profile page. Let's create profile page now
@@ -95,12 +95,12 @@ class _LoginPageState extends State<LoginPage>{
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.fromLTRB(10,20,10,20),
+                              margin: const EdgeInsets.fromLTRB(10,20,10,20),
                               //child: Text('Don\'t have an account? Create'),
                               child: Text.rich(
                                 TextSpan(
                                   children: [
-                                    TextSpan(text: "Don\'t have an account? "),
+                                    const TextSpan(text: "Don\'t have an account? "),
                                     TextSpan(
                                       text: 'Register',
                                       recognizer: TapGestureRecognizer()
