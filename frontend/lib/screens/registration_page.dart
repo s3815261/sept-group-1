@@ -1,11 +1,13 @@
 
 import 'dart:convert';
 
+import 'package:frontend/screens/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/theme_helper.dart';
 import 'package:frontend/screens/widgets/header_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:frontend/service/register_service.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:frontend/controller/UserController.dart';
@@ -23,33 +25,14 @@ class RegistrationPage extends  StatefulWidget{
 
 
 class _RegistrationPageState extends State<RegistrationPage>{
-
-  Future<void> postData() async {
-      Map<String, dynamic> jsonMap = {
-        "firstName": "test",
-        "lastName": "g",
-        "email": "test@gmail.com",
-        "password": "test",
-        "role": "patient",
-        "isAdmin": true,
-        "loggedIn": false
-      };
-      String jsonString = json.encode(jsonMap);
-      print("TESTING!!!");
-      String url = 'https://localhost:8080/users/register';
-      final response = await http.post(Uri.parse(url),
-          headers: <String, String>{"Content-Type": "application/json",'Access-Control-Allow-Origin': '*'},
-          body: jsonString,
-      );
-
-      print("Done!");
-      print("response.body");
-  }
-
   final _formKey = GlobalKey<FormState>();
   bool checkedValue = false;
   bool checkboxValue = false;
-
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _roleController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +92,7 @@ class _RegistrationPageState extends State<RegistrationPage>{
                         SizedBox(height: 30,),
                         Container(
                           child: TextFormField(
+                            controller: _firstNameController,
                             decoration: ThemeHelper().textInputDecoration('First Name', 'Enter your first name'),
                           ),
                           decoration: ThemeHelper().inputBoxDecorationShaddow(),
@@ -116,6 +100,7 @@ class _RegistrationPageState extends State<RegistrationPage>{
                         SizedBox(height: 30,),
                         Container(
                           child: TextFormField(
+                            controller: _lastNameController,
                             decoration: ThemeHelper().textInputDecoration('Last Name', 'Enter your last name'),
                           ),
                           decoration: ThemeHelper().inputBoxDecorationShaddow(),
@@ -123,6 +108,7 @@ class _RegistrationPageState extends State<RegistrationPage>{
                         SizedBox(height: 20.0),
                         Container(
                           child: TextFormField(
+                            controller: _emailController,
                             decoration: ThemeHelper().textInputDecoration("E-mail address", "Enter your email"),
                             keyboardType: TextInputType.emailAddress,
                             validator: (val) {
@@ -162,6 +148,7 @@ class _RegistrationPageState extends State<RegistrationPage>{
                         Container(
                           child: TextFormField(
                             obscureText: true,
+                            controller: _passController,
                             decoration: ThemeHelper().textInputDecoration(
                                 "Password*", "Enter your password"),
                             validator: (val) {
@@ -228,10 +215,11 @@ class _RegistrationPageState extends State<RegistrationPage>{
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                postData();
+                                UserModel user = UserModel(10, _firstNameController.text, _lastNameController.text,  _emailController.text, true, true, _passController.text, "patient");
+                                user.createUser(_firstNameController.text, _lastNameController.text, _emailController.text, _passController.text, "patient", true, true);
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) => ProfilePage()
+                                        builder: (context) => LoginPage()
                                     ),
                                         (Route<dynamic> route) => false
                                 );
@@ -256,6 +244,8 @@ class _RegistrationPageState extends State<RegistrationPage>{
     );
   }
 }
+
+
 
 class MyAlertDialog extends StatelessWidget {
   final String title;

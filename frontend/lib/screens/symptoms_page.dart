@@ -26,7 +26,8 @@ class _SymptomPageState extends State<SymptomPage> {
   final _formKey = GlobalKey<FormState>();
   bool checkedValue = false;
   bool checkboxValue = false;
-
+  String buttonTitle = "Add Symptom!";
+  final TextEditingController _symptomController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +48,7 @@ class _SymptomPageState extends State<SymptomPage> {
               Container(
                 decoration: ThemeHelper().inputBoxDecorationShaddow(),
                 child: TextFormField(
+                  controller: _symptomController,
                   decoration: ThemeHelper().textInputDecoration('Symptom', 'Enter your Symptom'),
                 ),
               ),
@@ -55,11 +57,18 @@ class _SymptomPageState extends State<SymptomPage> {
                     decoration: ThemeHelper().buttonBoxDecoration(context),
                     child: ElevatedButton(
                       style: ThemeHelper().buttonStyle(),
-                      onPressed: null,
+                      onPressed: (){
+                        UserModel user = UserModel(10, 'empty', 'empty', 'empty', true, true, 'empty', "patient");
+                        user.updateHealthStatus(_symptomController.text);
+                        setState(() {
+                          buttonTitle = "Symptom Added!!!!!";
+                        });
+
+                      },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                         child: Text(
-                          "Add Symptom".toUpperCase(),
+                          buttonTitle.toUpperCase(),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/theme_helper.dart';
 
+import '../models/User.dart';
 import 'profile_page.dart';
 import 'registration_page.dart';
 import 'widgets/header_widget.dart';
@@ -17,6 +18,8 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
   double _headerHeight = 250;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
   Key _formKey = GlobalKey<FormState>();
 
   @override
@@ -56,13 +59,15 @@ class _LoginPageState extends State<LoginPage>{
                           children: [
                             Container(
                               child: TextField(
-                                decoration: ThemeHelper().textInputDecoration('User Name', 'Enter your user name'),
+                                controller: _emailController,
+                                decoration: ThemeHelper().textInputDecoration('Email', 'Enter your email'),
                               ),
                               decoration: ThemeHelper().inputBoxDecorationShaddow(),
                             ),
                             SizedBox(height: 30.0),
                             Container(
                               child: TextField(
+                                controller: _passController,
                                 obscureText: true,
                                 decoration: ThemeHelper().textInputDecoration('Password', 'Enter your password'),
                               ),
@@ -83,6 +88,8 @@ class _LoginPageState extends State<LoginPage>{
                                 ),
                                 onPressed: (){
                                   //After successful login we will redirect to profile page. Let's create profile page now
+                                  UserModel user = UserModel(10, 'empty', 'empty', 'empty', true, true, 'empty', "patient");
+                                  user.loginUser(_emailController.text, _passController.text);
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfilePage()));
                                 },
                               ),
@@ -98,6 +105,7 @@ class _LoginPageState extends State<LoginPage>{
                                       text: 'Register',
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = (){
+
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationPage()));
                                         },
                                       style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).accentColor),

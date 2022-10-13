@@ -16,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -59,15 +60,24 @@ public class UserController {
 
     @PostMapping("/users/login")
     public ResponseEntity<?> loginUserWithJWT(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
-        // authenticate user
-        authenticate(userLoginRequest.getEmail(), userLoginRequest.getPassword());
-        final UserDetails userDetails = userDetailService.loadUserByUsername(userLoginRequest.getEmail());
+        try {
+            // authenticate user
+            authenticate(userLoginRequest.getEmail(), userLoginRequest.getPassword());
+            final UserDetails userDetails = userDetailService.loadUserByUsername(userLoginRequest.getEmail());
+        } catch (UsernameNotFoundException e) {
+            Map<String,Object> errResponse = new HashMap<>();
+            errResponse.put("error", "Invalid login credentials");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errResponse);
+        }
         // generate token
         final String token = jwtUtil.generateToken(userLoginRequest.getEmail());
         // return jwt token
-        Map<String,Object> jwtResponse = new HashMap<>();
-        jwtResponse.put("token", token);
-        return ResponseEntity.ok(jwtResponse);
+        Map<String,Object> response = new HashMap<>();
+        // get user object
+        User userFromDB = userRepository.findByEmail(userLoginRequest.getEmail());
+        response.put("token", token);
+        response.put("user", userFromDB);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/users/register")

@@ -21,6 +21,10 @@ public class Appointment {
 
     private String endTime;
 
+    public Appointment() {
+
+    }
+
     public Appointment(long doctorId, long patientId, String startTime, String endTime) {
         this.doctorId = doctorId;
         this.patientId = patientId;
