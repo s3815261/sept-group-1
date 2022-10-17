@@ -1,3 +1,5 @@
+# SETUP SPRING BOOT
+
 ## To setup the project
 
 `mvn install`
@@ -22,7 +24,7 @@
 
 --
 
-### DOCKERIZE MYSQL
+# DOCKERIZE MYSQL
 
 ## Pull MYSQL image
 
@@ -47,7 +49,7 @@
 
 --
 
-## API Routes
+# API Routes
 
     POST /users/login
 
@@ -119,3 +121,50 @@
     }
     Response: "Availabilities set"
 
+    ---
+
+    POST /doctor/getavailability?id=25
+
+    Response: {
+        "monday": "1663501568:1663601568",
+        "tuesday": "1663501568:1663601568",
+        "wednesday": null,
+        "thursday": null,
+        "friday": "1663501568:1663601568"
+    }
+
+    ---
+
+    POST /appointment/make
+
+    Request: {
+        "doctorId": 34,
+        "patientId": 35,
+        "startTime": "1664940931",
+        "endTime": "1664943000"
+    }
+
+    Response: Appointment created
+
+    ---
+
+    GET /appointment/view?patientId=35
+
+    Response: [
+        {
+            "doctorId": 34,
+            "doctorName": "sq leo",
+            "patientId": 35,
+            "startTime": "1664940931",
+            "endTime": "1664943000"
+        },
+        {
+            "doctorId": 34,
+            "doctorName": "sq leo",
+            "patientId": 35,
+            "startTime": "1664940931",
+            "endTime": "1664943000"
+        }
+    ]
+
+    ---
