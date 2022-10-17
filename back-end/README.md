@@ -2,6 +2,51 @@
 
 `mvn install`
 
+## To build the project
+
+`mvn compile`
+
+## Package the project
+
+`mvn package`
+
+## Execute the jar file / Run application
+
+`java -jar target/back-end-0.0.1-SNAPSHOT.jar`
+
+- Please make sure you have the appropriate settings in application.properties
+
+## Containerize the app
+
+`docker build -t backend:latest .`
+
+--
+
+### DOCKERIZE MYSQL
+
+## Pull MYSQL image
+
+`docker pull mysql`
+
+## Run MYSQL image
+
+`docker run -d -p 3308:3306 --name=mysql-docker --env="MYSQL_ROOT_PASSWORD=root" --env="MYSQL_PASSWORD=root" --env="MYSQL_DATABASE=nd" mysql`
+
+## Check if MYSQL container is up
+
+`docker ps`
+
+
+## Connect to the container and access the DB
+
+`docker exec -it mysql-docker bash`
+
+## Login to MYSQL server
+
+`mysql -uroot -proot`
+
+--
+
 ## API Routes
 
     POST /users/login
