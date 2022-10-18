@@ -44,6 +44,7 @@ dependencies:
   flutter_spinkit: 5.1.0
   json_path: 0.4.1
   auto_size_text: 3.0.0
+  web_socket_channel:
   url_launcher: 6.1.5
   http: ^0.13.4
 

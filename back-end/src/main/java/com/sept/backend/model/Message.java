@@ -1,5 +1,6 @@
 package com.sept.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +26,17 @@ public class Message {
     @Column(nullable = false, columnDefinition = "text")
     private String message;
 
+    private String chat_id;
+    private String user_id;
+
     @ManyToOne
-    @JoinColumn(name = "chat_id", updatable = false, nullable = false, foreignKey = @ForeignKey(name = "FK_CHAT"))
+    @JsonIgnore
+    @JoinColumn(name = "chat_id", insertable = false, updatable = false, nullable = false, foreignKey = @ForeignKey(name = "FK_CHAT"))
     private Chat chat;
 
     @ManyToOne
-    @JoinColumn(updatable = false, nullable = false, foreignKey = @ForeignKey(name = "FK_USER"))
+    @JsonIgnore
+    @JoinColumn(name = "user_id", insertable = false, updatable = false, nullable = false, foreignKey = @ForeignKey(name = "FK_USER"))
     private User user;
 
 
